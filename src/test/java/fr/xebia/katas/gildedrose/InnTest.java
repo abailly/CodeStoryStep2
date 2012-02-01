@@ -1,14 +1,19 @@
 package fr.xebia.katas.gildedrose;
 
-import org.junit.Test;
+import static org.fest.assertions.Assertions.*;
 
-import static org.fest.assertions.Assertions.assertThat;
+import org.junit.Test;
 
 public class InnTest {
 
-   @Test
-   public void should_test_the_truth() throws Exception {
-      assertThat(true).isTrue();
-   }
+  @Test
+  public void should_test_the_truth() throws Exception {
+    assertThat(true).isTrue();
+  }
 
+  @Test
+  public void update_lowers_value_of_all_items() throws Exception {
+    Inn inn = new Inn();
+    inn.updateQuality();
+  }
 }
