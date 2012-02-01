@@ -27,4 +27,5 @@ public class QualityTest {
 
     assertThat(degradedVest.getQuality()).isEqualTo(18);
   }
+
 }

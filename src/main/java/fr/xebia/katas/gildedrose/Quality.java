@@ -6,16 +6,53 @@ package fr.xebia.katas.gildedrose;
 
 public class Quality {
 
-  private int accruedTime;
+  private int accruedTime = 0;
 
-  public Item endOfDay(Item dexterityVest) {
+  interface Rule {
+    Item apply(Item item);
+
+    boolean canApply(Quality quality, Item item);
+  }
+
+  private final Rule standardDegradation = new Rule() {
+
+    @Override
+    public Item apply(Item item) {
+      return new Item(item.getName(), item.getSellIn(), item.getQuality() - 1);
+    }
+
+    @Override
+    public boolean canApply(Quality quality, Item item) {
+      return true;
+    }
+
+  };
+
+  private final Rule doubleDegradation = new Rule() {
+
+    @Override
+    public Item apply(Item item) {
+      return new Item(item.getName(), item.getSellIn(), item.getQuality() - 2);
+    }
+
+    @Override
+    public boolean canApply(Quality quality, Item item) {
+      return quality.accruedTime >= item.getSellIn();
+    }
+
+  };
+
+  public Item endOfDay(Item item) {
     accruedTime++;
-    return new Item(dexterityVest.getName(), dexterityVest.getSellIn(),
-      dexterityVest.getSellIn() > accruedTime ? dexterityVest.getQuality() - 1 : dexterityVest.getQuality() - 2);
+    if (doubleDegradation.canApply(this, item)) {
+      return doubleDegradation.apply(item);
+    } else {
+      return standardDegradation.apply(item);
+    }
   }
 
   public void timeTravelBy(int offsetInDays) {
-    this.accruedTime = offsetInDays;
+    this.accruedTime += offsetInDays;
   }
 
 }
